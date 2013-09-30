@@ -17,14 +17,29 @@ curTempHtml = soup.find_all(attrs={'class',"myforecast-current-lrg"}) # current 
 # other current weather conditions
 curWxHtml = soup.find_all(attrs={'class',"current-conditions-detail"})
 
+p = re.compile('[0-9\-\.]*')
 curTempSoup = BeautifulSoup(str(curTempHtml[0]))
 tempStr = curTempSoup.p.string
+tempMatch = p.match(tempStr)
+tStr = tempMatch.group()
+print "Temp",
+print(tStr)
 
-p = re.compile('[0-9\-\.]*')
 curWxSoup = BeautifulSoup(str(curWxHtml[0]))
 for d in curWxSoup.find_all('li'):
-  print(d.contents[0].string),
-  m = p.match(d.contents[1].string)
-  print(m.group())
-#  print(d.contents[1])
+  if(d.contents[0].string == 'Wind Speed'):
+    windParts = d.contents[1].split(' ') # split direction, speed, and label or Gusts
+    windDir = windParts[0]
+    windSpeed = windParts[1]
+    if(windParts[2] == 'G'):
+      windGust = windParts[3]
+    else:
+      windGust = '0';
+    print "windDir " + windDir
+    print "windSpeed " + str(windSpeed)
+    print "windGust " + str(windGust)
+  else:
+    print(d.contents[0].string),
+    m = p.match(d.contents[1].string)
+    print(m.group())
 
