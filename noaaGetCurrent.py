@@ -16,6 +16,8 @@ soup = BeautifulSoup(html)
 curTempHtml = soup.find_all(attrs={'class',"myforecast-current-lrg"}) # current temp
 # other current weather conditions
 curWxHtml = soup.find_all(attrs={'class',"current-conditions-detail"})
+timeStampHtml = soup.find_all(attrs={'class',"current-conditions-timestamp"})
+timeStampSoup = BeautifulSoup(str(timeStampHtml[0]))
 
 p = re.compile('[0-9\-\.]*')
 curTempSoup = BeautifulSoup(str(curTempHtml[0]))
@@ -42,4 +44,11 @@ for d in curWxSoup.find_all('li'):
     print(d.contents[0].string),
     m = p.match(d.contents[1].string)
     print(m.group())
+
+timeSplit = timeStampSoup.string.split(' ')
+day = timeSplit[3]
+month = timeSplit[4]
+time = timeSplit[5]
+ampm = timeSplit[6]
+timezone = timeSplit[7]
 
