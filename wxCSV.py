@@ -26,17 +26,18 @@ def processForecast(inXML, N):
   print "Forecast Length (hrs): " + str(len(rootObj.data[0].parameters[0].temperature[0].value))
   print "Date: " + rootObj.head.product.creation_date.get_valueOf_()
   print "Location: " + rootObj.data[0].location[0].city.get_valueOf_()
-  print "Single prediction test"
-  print "Time: " + rootObj.data[0].time_layout[0].start_valid_time[0].get_valueOf_(),
-  print "to " + str(rootObj.data[0].time_layout[0].end_valid_time[0])
-  for t in rootObj.data[0].parameters[0].temperature:
-    print "Temp type " + t.get_type(),
-    print t.value[0].get_valueOf_()
-  print "precipitation probability: " + rootObj.data[0].parameters[0].probability_of_precipitation[0].value[0].get_valueOf_()
-  for w in rootObj.data[0].parameters[0].wind_speed:
-    print "wind " + w.get_type() + ': ' + w.value[0].get_valueOf_()
-  for d in rootObj.data[0].parameters[0].direction:
-    print "direction of " + d.get_type() + ": " + d.value[0].get_valueOf_()
+  print "Multiple Prediction Test"
+  for ii in range(0,len(rootObj.data[0].parameters[0].temperature[0].value)):
+    print "Time: " + rootObj.data[0].time_layout[0].start_valid_time[ii].get_valueOf_(),
+    print "to " + str(rootObj.data[0].time_layout[0].end_valid_time[ii])
+    for t in rootObj.data[0].parameters[0].temperature:
+      print "Temp type " + t.get_type(),
+      print t.value[ii].get_valueOf_()
+    print "precipitation probability: " + rootObj.data[0].parameters[0].probability_of_precipitation[0].value[ii].get_valueOf_()
+    for w in rootObj.data[0].parameters[0].wind_speed:
+      print "wind " + w.get_type() + ': ' + w.value[ii].get_valueOf_()
+    for d in rootObj.data[0].parameters[0].direction:
+      print "direction of " + d.get_type() + ": " + d.value[ii].get_valueOf_()
 
 def processCurrent(inXML):
   rootObj = CurSupermod.parseString(inXML, True)
