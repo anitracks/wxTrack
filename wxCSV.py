@@ -9,6 +9,7 @@
 # 2013 October 21
 
 import sys
+import datetime
 from urllib2 import urlopen
 # need to have import try/excepts here
 from lxml import etree 
@@ -47,7 +48,9 @@ def processCurrent(inXML):
   print "Station ID: " + rootObj.station_id
   curObs.station = rootObj.station_id
   print "Observation Time: " + rootObj.observation_time_rfc822
-  curObs.obstime = rootObj.observation_time_rfc822
+  #pyObsTime = datetime.datetime.strptime(rootObj.observation_time_rfc822, "Last Updated on %b %d %Y, %I:%M %p %Z")
+  pyObsTime = datetime.datetime.strptime(rootObj.observation_time_rfc822[:-6], "%a, %d %b %Y %H:%M:%S")
+  curObs.obstime = pyObsTime
   print "Current Temp: " + str(rootObj.temp_f) + " F"
   curObs.temperature = rootObj.temp_f
   print "Rel Humidity: " + str(rootObj.relative_humidity) + "%"
